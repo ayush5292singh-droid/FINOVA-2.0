@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+  <meta name="theme-color" content="#0b0d14">
+  <title>FINANCE MANAGER</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div id="toast"></div>
+
+<!-- MOBILE TOP -->
+<header class="mobile-top">
+  <div>
+    <div class="brand-small">FINANCE</div>
+    <strong>MANAGER</strong>
+  </div>
+  <button class="icon-btn" onclick="showPage('settings')">⚙</button>
+</header>
+
+<div class="app-shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="logo-area">
+      <div class="logo-mark">FM</div>
+      <div>
+        <h1>FINANCE</h1>
+        <span>MANAGER</span>
+      </div>
+    </div>
+
+    <div class="profile-mini">
+      <div class="avatar">₹</div>
+      <div>
+        <b>My Finance</b>
+        <small>Personal account</small>
+      </div>
+    </div>
+
+    <nav>
+
+      <p class="nav-title">MAIN</p>
+
+      <button class="nav-btn active" data-page="dashboard" onclick="showPage('dashboard')">
+        <span>⌂</span> Dashboard
+      </button>
+
+      <button class="nav-btn" data-page="transactions" onclick="showPage('transactions')">
+        <span>⇄</span> Transactions
+      </button>
+
+      <button class="nav-btn" data-page="add" onclick="showPage('add')">
+        <span>＋</span> Add Transaction
+      </button>
+
+      <button class="nav-btn" data-page="accounts" onclick="showPage('accounts')">
+        <span>▣</span> Accounts
+      </button>
+
+      <button class="nav-btn" data-page="analytics" onclick="showPage('analytics')">
+        <span>◔</span> Analytics
+      </button>
+
+      <button class="nav-btn" data-page="reports" onclick="showPage('reports')">
+        <span>▥</span> Reports
+      </button>
+
+      <p class="nav-title">PLANNING</p>
+
+      <button class="nav-btn" data-page="budgets" onclick="showPage('budgets')">
+        <span>◉</span> Budgets
+      </button>
+
+      <button class="nav-btn" data-page="goals" onclick="showPage('goals')">
+        <span>★</span> Savings Goals
+      </button>
+
+      <button class="nav-btn" data-page="recurring" onclick="showPage('recurring')">
+        <span>↻</span> Recurring
+      </button>
+
+      <button class="nav-btn" data-page="bills" onclick="showPage('bills')">
+        <span>▤</span> Bills
+      </button>
+
+      <button class="nav-btn" data-page="calendar" onclick="showPage('calendar')">
+        <span>□</span> Calendar
+      </button>
+
+      <p class="nav-title">SMART TOOLS</p>
+
+      <button class="nav-btn" data-page="scanner" onclick="showPage('scanner')">
+        <span>▣</span> Receipt Scanner
+      </button>
+
+      <button class="nav-btn" data-page="insights" onclick="showPage('insights')">
+        <span>✦</span> Smart Insights
+      </button>
+
+      <button class="nav-btn" data-page="backup" onclick="showPage('backup')">
+        <span>↥</span> Backup & Export
+      </button>
+
+      <p class="nav-title">APP</p>
+
+      <button class="nav-btn" data-page="premium" onclick="showPage('premium')">
+        <span>◆</span> Premium
+      </button>
+
+      <button class="nav-btn" data-page="settings" onclick="showPage('settings')">
+        <span>⚙</span> Settings
+      </button>
+
+    </nav>
+
+    <div class="premium-mini">
+      <div class="premium-icon">◆</div>
+      <div>
+        <b>Premium</b>
+        <small>Unlock advanced tools</small>
+      </div>
+      <button onclick="showPage('premium')">›</button>
+    </div>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- DASHBOARD -->
+    <section class="page active" id="page-dashboard">
+
+      <div class="page-head">
+        <div>
+          <span class="eyebrow">PERSONAL FINANCE</span>
+          <h2>Good evening 👋</h2>
+          <p>Here's your financial overview.</p>
+        </div>
+
+        <button class="primary-btn" onclick="showPage('add')">
+          ＋ Add Transaction
+        </button>
+      </div>
+
+      <div class="stats-grid">
+
+        <div class="stat-card balance-card">
+          <div class="stat-top">
+            <span>Total Balance</span>
+            <span class="stat-icon">₹</span>
+          </div>
+          <strong id="dashBalance">₹0</strong>
+          <small id="balanceStatus">Your current balance</small>
+        </div>
+
+        <div class="stat-card income-card">
+          <div class="stat-top">
+            <span>Total Income</span>
+            <span class="stat-icon">↗</span>
+          </div>
+          <strong id="dashIncome">₹0</strong>
+          <small>This month</small>
+        </div>
+
+        <div class="stat-card expense-card">
+          <div class="stat-top">
+            <span>Total Expenses</span>
+            <span class="stat-icon">↘</span>
+          </div>
+          <strong id="dashExpense">₹0</strong>
+          <small>This month</small>
+        </div>
+
+        <div class="stat-card saving-card">
+          <div class="stat-top">
+            <span>Savings</span>
+            <span class="stat-icon">★</span>
+          </div>
+          <strong id="dashSavings">₹0</strong>
+          <small id="savingRate">0% saving rate</small>
+        </div>
+
+      </div>
+
+      <div class="dashboard-grid">
+
+        <div class="panel chart-panel large">
+          <div class="panel-head">
+            <div>
+              <h3>Cash Flow</h3>
+              <p>Income vs expenses</p>
+            </div>
+            <select id="cashflowRange" onchange="updateDashboardCharts()">
+              <option value="6">6 Months</option>
+              <option value="12">12 Months</option>
+            </select>
+          </div>
+          <div class="chart-box">
+            <canvas id="cashflowChart"></canvas>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h3>Spending</h3>
+              <p>By category</p>
+            </div>
+            <button class="text-btn" onclick="showPage('analytics')">View</button>
+          </div>
+
+          <div class="chart-box pie-box">
+            <canvas id="categoryChart"></canvas>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="dashboard-grid lower">
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h3>Recent Transactions</h3>
+              <p>Latest activity</p>
+            </div>
+            <button class="text-btn" onclick="showPage('transactions')">View all</button>
+          </div>
+          <div id="recentTransactions"></div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <h3>Budget Status</h3>
+              <p>This month</p>
+            </div>
+            <button class="text-btn" onclick="showPage('budgets')">Manage</button>
+          </div>
+          <div id="dashboardBudgets"></div>
+        </div>
+
+      </div>
+
+      <div class="quick-grid">
+
+        <button onclick="showPage('add')" class="quick-action">
+          <span>＋</span>
+          <b>Add Money</b>
+          <small>Income or expense</small>
+        </button>
+
+        <button onclick="showPage('scanner')" class="quick-action">
+          <span>▣</span>
+          <b>Scan Receipt</b>
+          <small>OCR your bill</small>
+        </button>
+
+        <button onclick="showPage('budgets')" class="quick-action">
+          <span>◉</span>
+          <b>Create Budget</b>
+          <small>Control spending</small>
+        </button>
+
+        <button onclick="showPage('goals')" class="quick-action">
+          <span>★</span>
+          <b>New Goal</b>
+          <small>Save for something</small>
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- TRANSACTIONS -->
+    <section class="page" id="page-transactions">
+
+      <div class="page-head">
+        <div>
+          <span class="eyebrow">MONEY ACTIVITY</span>
+          <h2>Transactions</h2>
+          <p>Track every rupee.</p>
+        </div>
+        <button class="primary-btn" onclick="showPage('add')">＋ Add</button>
+      </div>
+
+      <div class="filter-panel">
+
+        <input id="transactionSearch"
+               oninput="renderTransactions()"
+               placeholder="🔎 Search transactions...">
+
+        <select id="transactionType" onchange="renderTransactions()">
+          <option value="all">All types</option>
+          <option value="income">Income</option>
+          <option value="expense">Expense</option>
+        </select>
+
+        <select id="transactionCategory" onchange="renderTransactions()">
+          <option value="all">All categories</option>
+        </select>
+
+        <input type="month" id="transactionMonth"
+               onchange="renderTransactions()">
+
+      </div>
+
+      <div class="panel no-padding">
+        <div id="transactionsList"></div>
+      </div>
+
+    </section>
+
+
+    <!-- ADD -->
+    <section class="page" id="page-add">
+
+      <div class="page-head">
+        <div>
+          <span class="eyebrow">NEW ENTRY</span>
+          <h2>Add Transaction</h2>
+          <p>Record your income or spending.</p>
+        </div>
+      </div>
+
+      <div class="form-layout">
+
+        <div class="panel form-panel">
+
+          <div class="type-switch">
+            <button id="expenseTypeBtn" class="selected expense"
+                    onclick="setTransactionType('expense')">
+              Expense
+            </button>
+            <button id="incomeTypeBtn"
+                    onclick="setTransactionType('income')">
+              Income
+            </button>
+          </div>
+
+          <form id="transactionForm">
+
+            <input type="hidden" id="editTransactionId">
+
+            <label>Amount</label>
+            <div class="amount-input">
+              <span>₹</span>
+              <input id="transactionAmount"
+                     type="number"
+                     min="0"
+                     step="0.01"
+                     placeholder="0.00"
+                     required>
+            </div>
+
+            <div class="two-col">
+
+              <div>
+                <label>Category</label>
+                <select id="transactionCategoryInput"></select>
+              </div>
+
+              <div>
+                <label>Account</label>
+                <select id="transactionAccount"></select>
+              </div>
+
+            </div>
+
+            <div class="two-col">
+
+              <div>
+                <label>Date</label>
+                <input id="transactionDate" type="date" required>
+              </div>
+
+              <div>
+                <label>Payment Method</label>
+                <select id="paymentMethod">
+                  <option>Cash</option>
+                  <option>UPI</option>
+                  <option>Debit Card</option>
+                  <option>Credit Card</option>
+                  <option>Bank Transfer</option>
+                  <option>Other</option>
+                </select>
+              </div>
+
+            </div>
+
+            <label>Note</label>
+            <input id="transactionNote"
+                   placeholder="e.g. Lunch with friends">
+
+            <label>Tags</label>
+            <input id="transactionTags"
+                   placeholder="school, food, important">
+
+            <div class="form-actions">
+              <button type="button" class="secondary-btn"
+                      onclick="resetTransactionForm()">
+                Clear
+              </button>
+
+              <button class="primary-btn" type="submit">
+                Save Transaction
+              </button>
+            </div>
+
+          </form>
+
+        </div>
+
+        <div class="panel tip-panel">
+          <div class="big-icon">✦</div>
+          <h3>Smart Finance Tip</h3>
+          <p id="randomTip">
+            Small expenses become big expenses when repeated.
+          </p>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ACCOUNTS -->
+    <section class="page" id="page-accounts">
+
+      <div class="page-head">
+        <div>
+          <span class="eyebrow">YOUR MONEY</span>
+          <h2>Accounts</h2>
+          <p>Manage cash, banks and wallets.</p>
+        </div>
+      </div>
+
+      <div class="account-summary">
+        <div>
+          <small>Combined balance</small>
+          <strong id="accountTotal">₹0</strong>
+        </div>
+
+        <button class="primary-btn" onclick="openModal('accountModal')">
+          ＋ New Account
+        </button>
+      </div>
+
+      <div id="accountsGrid" class="cards-grid"></div>
+
+    </section>
+
+
+    <!-- ANALYTICS -->
+    <section class="page" id="page-analytics">
+
+      <div class="page-head">
+        <div>
+          <span class="eyebrow">DATA INTELLIGENCE</span>
+          <h2>Analytics</h2>
+          <p>Understand where your money goes.</p>
+        </div>
+      </div>
+
+      <div class="stats-grid compact">
+
+        <div class="stat-card">
+          <span>Average Daily Spend</span>
+          <strong id="avgSpend">₹0</strong>
+        </div>
+
+        <div class="stat-card">
+          <span>Largest Expense</span>
+          <strong id="largestExpense">₹0</strong>
+        </div>
+
+        <div class="stat-card">
+          <span>Transactions</span>
+          <strong id="transactionCount">0</strong>
+        </div>
+
+        <div class="stat-card">
+          <span>Saving Rate</span>
+          <strong id="analyticsSavingRate">0%</strong>
+        </div>
+
+      </div>
+
+      <div class="dashboard-grid">
+
+        <div class="panel chart-panel large">
+          <div class="panel-head">
+            <h3>Monthly Cash Flow</h3>
+          </div>
+          <div class="chart-box">
+            <canvas id="analyticsCashChart"></canvas>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Expense Categories</h3>
+          </div>
+          <div class="chart-box pie-box">
+            <canvas id="analyticsCategoryChart"></canvas>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- REPORTS -->
+    <section class="page" id="page-reports">
+
+      <div class="page-head">
+        <div>
+          <span class="eyebrow">FINANCIAL REPORTING</span>
+          <h2>Reports</h2>
+          <p>Generate a clear financial summary.</p>
+        </div>
+
+        <button class="primary-btn" onclick="exportCSV()">
+          Export CSV
+        </button>
+      </div>
+
+      <div class="report-controls panel">
+        <label>Report Month</label>
+        <input type="month" id="reportMonth" onchange="renderReport()">
+      </div>
+
+      <div id="reportContent"></div>
+
+    </section>
+
+
+    <!-- BUDGETS -->
+    <section class="page" id="page-budgets">
+
+      <div class="page-head">
+        <div>
+          <span class="eyebrow">SPENDING CONTROL</span>
+          <h2>Budgets</h2>
+          <p>Set limits before your money disappears.</p>
+        </div>
+
+        <button class="primary-btn" onclick="openModal('budgetModal')">
+          ＋ New Budget
+        </button>
+      </div>
+
+      <div id="budgetGrid" class="cards-grid"></div>
+
+    </section>
+
+
+    <!-- GOALS -->
+    <section class="page" id="page-goals">
+
+      <div class="page-head">
+        <div>
+          <span class="eyebrow">FUTURE MONEY</span>
+          <h2>Savings Goals</h2>
+          <p>Turn plans into measurable progress.</p>
+        </div>
+
+        <button class="primary-btn" onclick="openModal('goalModal')">
+          ＋ New Goal
+        </button>
+      </div>
+
+      <div id="goalsGrid" class="cards-grid"></div>
+
+    </section>
+
+
+    <!-- RECURRING -->
+    <section class="page" id="page-recurring">
+
+      <div class="page-head">
+        <div>
+          <span class="eyebrow">AUTOMATIC TRACKING</span>
+          <h2>Recurring Payments</h2>
+          <p>Keep subscriptions and repeated payments organized.</p>
+        </div>
+
+        <button class="primary-btn" onclick="openModal('recurringModal')">
+          ＋ Add Recurring
+        </button>
+      </div>
+
+      <div id="recurringGrid" class="cards-grid"></div>
+
+    </section>
+
+
+    <!-- BILLS -->
+    <section class="page" id="page-bills">
+
+      <div class="page-head">
+        <div>
+          <span class="eyebrow">UPCOMING PAYMENTS</span>
+          <h2>Bills</h2>
+          <p>Never lose track of a due date.</p>
+        </div>
+
+        <button class="primary-btn" onclick="openModal('billModal')">
+          ＋ Add Bill
+        </button>
+      </div>
+
+      <div id="billsGrid" class="cards-grid"></div>
+
+    </section>
+
+
+    <!-- CALENDAR -->
+    <section class="page" id="page-calendar">
+
+      <div class="page-head">
+        <div>
+          <span class="eyebrow">ACTIVITY CALENDAR</span>
+          <h2>Calendar</h2>
+          <p>See exactly what happened on any day.</p>
+        </div>
+      </div>
+
+      <div class="calendar-picker panel">
+        <label>Select date</label>
+        <input type="date" id="calendarDate"
+               onchange="renderCalendarDay()">
+      </div>
+
+      <div id="calendarDay" class="panel"></div>
+
+    </section>
+
+
+    <!-- SCANNER -->
+    <section class="page" id="page-scanner">
+
+      <div class="page-head">
+        <div>
+          <span class="eyebrow">SMART OCR</span>
+          <h2>Receipt Scanner</h2>
+          <p>Upload a receipt and extract its text.</p>
+        </div>
+
+        <span class="premium-badge">PREMIUM</span>
+      </div>
+
+      <div class="scanner-layout">
+
+        <div class="panel scanner-upload">
+
+          <div class="scanner-icon">▣</div>
+
+          <h3>Scan Receipt</h3>
+          <p>Select a clear photo of your receipt.</p>
+
+          <input type="file"
+                 id="receiptInput"
+                 accept="image/*"
+                 capture="environment"
+                 onchange="scanReceipt(event)">
+
+          <label for="receiptInput" class="upload-btn">
+            📷 Choose Receipt
+          </label>
+
+          <div id="scanProgress" class="progress-wrap hidden">
+            <div class="progress-track">
+              <div id="ocrProgress" class="progress-fill"></div>
+            </div>
+            <small id="ocrStatus">Preparing scanner...</small>
+          </div>
+
+        </div>
+
+        <div class="panel">
+
+          <div class="panel-head">
+            <div>
+              <h3>Extracted Receipt</h3>
+              <p>Review before saving.</p>
+            </div>
+          </div>
+
+          <textarea id="ocrText"
+                    placeholder="Receipt text will appear here..."
+                    rows="12"></textarea>
+
+          <div class="detected-box">
+            <span>Detected amount</span>
+            <strong id="detectedAmount">₹0</strong>
+          </div>
+
+          <button class="primary-btn full"
+                  onclick="createFromOCR()">
+            ＋ Create Expense
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- INSIGHTS -->
+    <section class="page" id="page-insights">
+
+      <div class="page-head">
+        <div>
+          <span class="eyebrow">SMART ANALYSIS</span>
+          <h2>Smart Insights</h2>
+          <p>Automatic observations based on your stored transactions.</p>
+        </div>
+      </div>
+
+      <div id="insightsGrid" class="insights-grid"></div>
+
+    </section>
+
+
+    <!-- BACKUP -->
+    <section class="page" id="page-backup">
+
+      <div class="page-head">
+        <div>
+          <span class="eyebrow">DATA CONTROL</span>
+          <h2>Backup & Export</h2>
+          <p>Your finance data belongs to you.</p>
+        </div>
+      </div>
+
+      <div class="backup-grid">
+
+        <div class="panel backup-card">
+          <div class="big-icon">💾</div>
+          <h3>Backup Everything</h3>
+          <p>Download all accounts, transactions, budgets and goals as a JSON backup.</p>
+          <button class="primary-btn" onclick="backupData()">Download Backup</button>
+        </div>
+
+        <div class="panel backup-card">
+          <div class="big-icon">↥</div>
+          <h3>Restore Backup</h3>
+          <p>Restore a previously exported Finance Manager backup.</p>
+          <input type="file" id="restoreInput" accept=".json"
+                 onchange="restoreData(event)">
+          <label class="upload-btn" for="restoreInput">Choose Backup</label>
+        </div>
+
+        <div class="panel backup-card">
+          <div class="big-icon">▤</div>
+          <h3>CSV Export</h3>
+          <p>Export transactions for spreadsheets and accounting.</p>
+          <button class="secondary-btn" onclick="exportCSV()">Export Transactions</button>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- PREMIUM -->
+    <section class="page" id="page-premium">
+
+      <div class="premium-hero">
+
+        <div class="premium-symbol">◆</div>
+
+        <span class="eyebrow">FINANCE MANAGER+</span>
+
+        <h2>Unlock the complete finance system.</h2>
+
+        <p>
+          Advanced analytics, receipt OCR, smart insights,
+          unlimited planning tools and future premium features.
+        </p>
+
+      </div>
+
+      <div class="plans">
+
+        <div class="plan-card">
+
+          <div class="plan-label">MONTHLY</div>
+
+          <h3>1 Month</h3>
+
+          <div class="price">
+            ₹49
+            <small>/ month</small>
+          </div>
+
+          <ul>
+            <li>✓ Receipt OCR</li>
+            <li>✓ Advanced analytics</li>
+            <li>✓ Smart insights</li>
+            <li>✓ Advanced reports</li>
+            <li>✓ Premium tools</li>
+          </ul>
+
+          <button class="primary-btn full"
+                  onclick="buyPremium('monthly')">
+            Continue with ₹49
+          </button>
+
+        </div>
+
+
+        <div class="plan-card featured">
+
+          <div class="popular">2 MONTHS</div>
+
+          <div class="plan-label">EXTENDED</div>
+
+          <h3>2 Months</h3>
+
+          <div class="price">
+            ₹95
+            <small>/ 2 months</small>
+          </div>
+
+          <ul>
+            <li>✓ Everything in Premium</li>
+            <li>✓ Receipt OCR</li>
+            <li>✓ Advanced analytics</li>
+            <li>✓ Smart insights</li>
+            <li>✓ Future premium updates</li>
+          </ul>
+
+          <button class="primary-btn full"
+                  onclick="buyPremium('twoMonths')">
+            Continue with ₹95
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="payment-note">
+        🔒 Purchases in the Android release are handled through Google Play Billing.
+      </div>
+
+    </section>
+
+
+    <!-- SETTINGS -->
+    <section class="page" id="page-settings">
+
+      <div class="page-head">
+        <div>
+          <span class="eyebrow">CONTROL CENTER</span>
+          <h2>Settings</h2>
+          <p>Customize Finance Manager.</p>
+        </div>
+      </div>
+
+      <div class="settings-layout">
+
+        <div class="panel">
+
+          <h3>Appearance</h3>
+
+          <div class="setting-row">
+            <div>
+              <b>Theme</b>
+              <small>Choose your interface style.</small>
+            </div>
+
+            <select id="themeSetting" onchange="changeTheme(this.value)">
+              <option value="dark">Dark</option>
+              <option value="light">Light</option>
+            </select>
+          </div>
+
+          <div class="setting-row">
+            <div>
+              <b>Currency</b>
+              <small>Used throughout the application.</small>
+            </div>
+
+            <select id="currencySetting" onchange="changeCurrency(this.value)">
+              <option value="INR">₹ INR</option>
+              <option value="USD">$ USD</option>
+              <option value="EUR">€ EUR</option>
+              <option value="GBP">£ GBP</option>
+            </select>
+          </div>
+
+        </div>
+
+
+        <div class="panel">
+
+          <h3>Data</h3>
+
+          <div class="setting-row">
+            <div>
+              <b>Export Data</b>
+              <small>Save a complete copy.</small>
+            </div>
+            <button class="secondary-btn" onclick="backupData()">Backup</button>
+          </div>
+
+          <div class="setting-row danger-row">
+            <div>
+              <b>Reset Application</b>
+              <small>Delete all locally stored data.</small>
+            </div>
+            <button class="danger-btn" onclick="resetApp()">Reset</button>
+          </div>
+
+        </div>
+
+
+        <div class="panel">
+
+          <h3>About</h3>
+
+          <div class="about-box">
+            <div class="logo-mark">FM</div>
+            <div>
+              <b>FINANCE MANAGER</b>
+              <small>Personal finance management system</small>
+            </div>
+          </div>
+
+          <div class="version">
+            Version 2.0 MAX
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+</div>
+
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav">
+
+  <button data-page="dashboard" onclick="showPage('dashboard')">
+    <span>⌂</span>
+    Home
+  </button>
+
+  <button data-page="transactions" onclick="showPage('transactions')">
+    <span>⇄</span>
+    Money
+  </button>
+
+  <button class="mobile-add" onclick="showPage('add')">
+    ＋
+  </button>
+
+  <button data-page="analytics" onclick="showPage('analytics')">
+    <span>◔</span>
+    Analytics
+  </button>
+
+  <button data-page="settings" onclick="showPage('settings')">
+    <span>⚙</span>
+    Settings
+  </button>
+
+</nav>
+
+
+<!-- ACCOUNT MODAL -->
+<div class="modal" id="accountModal">
+  <div class="modal-box">
+
+    <div class="modal-head">
+      <h3>New Account</h3>
+      <button onclick="closeModal('accountModal')">×</button>
+    </div>
+
+    <form onsubmit="addAccount(event)">
+
+      <label>Account Name</label>
+      <input id="accountName" placeholder="HDFC Bank" required>
+
+      <label>Type</label>
+      <select id="accountType">
+        <option>Bank</option>
+        <option>Cash</option>
+        <option>Wallet</option>
+        <option>Credit Card</option>
+        <option>Other</option>
+      </select>
+
+      <label>Opening Balance</label>
+      <input id="accountBalance" type="number" value="0">
+
+      <button class="primary-btn full">Create Account</button>
+
+    </form>
+
+  </div>
+</div>
+
+
+<!-- BUDGET MODAL -->
+<div class="modal" id="budgetModal">
+  <div class="modal-box">
+
+    <div class="modal-head">
+      <h3>Create Budget</h3>
+      <button onclick="closeModal('budgetModal')">×</button>
+    </div>
+
+    <form onsubmit="addBudget(event)">
+
+      <label>Category</label>
+      <select id="budgetCategory"></select>
+
+      <label>Monthly Limit</label>
+      <input id="budgetAmount" type="number" min="1" required>
+
+      <button class="primary-btn full">Create Budget</button>
+
+    </form>
+
+  </div>
+</div>
+
+
+<!-- GOAL MODAL -->
+<div class="modal" id="goalModal">
+  <
